@@ -66,12 +66,12 @@ export class TracingService {
       url: 'http://localhost:4318/v1/traces',
     });
 
-     const resource = resourceFromAttributes({
-      [ATTR_SERVICE_NAME]: 'angular-frontend'
+    const resource = resourceFromAttributes({
+      [ATTR_SERVICE_NAME]: 'angular-frontend',
     });
-    const provider = new WebTracerProvider({
-      spanProcessors: [new BatchSpanProcessor(exporter)],
-    });
+
+    const provider = new WebTracerProvider({ resource });
+    provider.addSpanProcessor(new BatchSpanProcessor(exporter));
 
     provider.register({
       contextManager: new ZoneContextManager(),
