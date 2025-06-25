@@ -60,7 +60,10 @@ import { resourceFromAttributes } from '@opentelemetry/resources';
 export class TracingService {
   static initTracing(): void {
     const exporter = new OTLPTraceExporter({
-      url: 'http://localhost:8080/v1/traces', 
+      // Tempo exposes the OTLP HTTP receiver on port 4318 by default. The
+      // exporter was mistakenly configured to use port 8080, which does not
+      // accept trace data. Update the endpoint so traces are sent to Tempo.
+      url: 'http://localhost:4318/v1/traces',
     });
 
      const resource = resourceFromAttributes({
